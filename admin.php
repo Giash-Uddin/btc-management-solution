@@ -1,9 +1,12 @@
 <?php
-$project_folder = explode("/", str_replace($_SERVER["DOCUMENT_ROOT"], "", $_SERVER["SCRIPT_FILENAME"]));
-include ($_SERVER["DOCUMENT_ROOT"]."/".$project_folder[1]."/Header.php");
-
+session_start();
+$session_validity=$_SESSION['valid'];
+if(!$session_validity){
+     header('Location: login.php');
+}
+require_once("Head.php");
+require_once("Sidebar.php");
 ?>
-
 <div class="row-fluid">
     <div class="btn-group">
         <button type="button" class="btn">Notification<span class="label label-danger">7</span></button>
@@ -20,14 +23,14 @@ include ($_SERVER["DOCUMENT_ROOT"]."/".$project_folder[1]."/Header.php");
 
                 <div class="row-fluid" >
                     <a href="course.php">
-                    <div class="" onclick="">
-                        <div class="thumbnail bootsnipp-thumb" style="height: 220px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
-                            <div style="padding : 20px;">
-                                Course
-                                <img class="danlazy" src="images/course.jpg" width="300" height="300" alt="course image not loaded">
+                        <div class="" onclick="">
+                            <div class="thumbnail bootsnipp-thumb" style="height: 220px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
+                                <div style="padding : 20px;">
+                                    Course
+                                    <img class="danlazy" src="images/course.jpg" width="300" height="300" alt="course image not loaded">
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </a>
 
                     <div class="scrollpost col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-3">
@@ -53,6 +56,5 @@ include ($_SERVER["DOCUMENT_ROOT"]."/".$project_folder[1]."/Header.php");
     <!-- /block -->
 </div>
 <?php
-$project_folder = explode("/", str_replace($_SERVER["DOCUMENT_ROOT"], "", $_SERVER["SCRIPT_FILENAME"]));
-include ($_SERVER["DOCUMENT_ROOT"]."/".$project_folder[1]."/Footer.php");
+require_once("Footer.php");
 ?>

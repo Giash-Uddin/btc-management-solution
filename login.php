@@ -1,32 +1,43 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Login</title>
-    <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-    <link href="assets/styles.css" rel="stylesheet" media="screen">
-     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-  </head>
-  <body id="login" style="background: linear-gradient(to right, #f0f2f0 0%, #303939 100%);">
+<?php
+//ob_start();
+//session_start();
+require_once ("Head.php");
+require_once ("database/LoginAccess.php");
+require_once ("database/DataAccess.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $login_access = new LoginAccess();
+    $data_access = new DataAccess();
+    $indx = $_POST['index'];
+    $password = $_POST['password'];
+    $row = null;
+    try {
+        $row = $login_access->login("infor", $indx, $password);
+    } catch (PDOException $e) {
+        $row = false;
+    }
+    if ($row) {
+        $data_access->redirect('admin.php');
+    } else {
+        echo '<script type="text/javascript">';
+        echo 'setTimeout(function () { swal("OOPs! ...","Invalid Index or Password!","warning");';
+        echo '}, 1000);</script>';
+    }
+}
+?>
+<body id="login" style="background: linear-gradient(to right, #f0f2f0 0%, #303939 100%);">
     <div class="container"><br/><br/><br/><br/><br/>
 
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="input-block-level" placeholder="Email address">
-        <input type="password" class="input-block-level" placeholder="Password">
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-large btn-success" type="submit">Sign in</button>
-      </form>
+        <form class="form-login" action="<?php $_PHP_SELF ?>" method="POST">
+            <h2 class="form-signin-heading">Please Login in</h2>
+            <input type="text" class="input-block-level" name="index" placeholder="Index">
+            <input type="password" class="input-block-level" name="password" placeholder="Password">
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+            <button class="btn btn-large btn-success" type="submit">Login</button><a> Not Registered ? Please Registry</a>
+        </form>
 
-    </div> <!-- /container -->
-    <script src="vendors/jquery-1.9.1.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-  </body>
+    </div>
+</body>
 </html>

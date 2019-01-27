@@ -9,7 +9,7 @@ class Connection{
     private $database = "test";
     private $conn;
 
-    public function Connection(){
+    public function __construct(){
         if(!$this->conn) {
             try {
                 $this->conn = new PDO("mysql:host=$this->host;dbname=$this->database", $this->user, $this->password);
